@@ -1,16 +1,16 @@
-"'use client'"
+'use client'
 
-import { useState, useEffect } from "'react'"
-import { Button } from "@/components/ui/button"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
-import Navigation from "'@/components/Navigation'"
-import Link from "'next/link'"
+import { useState, useEffect } from 'react'
+import { Button } from '@/components/ui/button'
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
+import Navigation from '@/components/Navigation'
+import Link from 'next/link'
 
 // Mock data for existing appointments
 const mockAppointments = [
-  { id: 1, date: "'2023-06-15'", time: "'10:00'", petName: "'Max'", service: "'Consulta general'" },
-  { id: 2, date: "'2023-06-20'", time: "'14:30'", petName: "'Luna'", service: "'Vacunación'" },
+  { id: 1, date: '2023-06-15', time: '10:00', petName: 'Max', service: 'Consulta general' },
+  { id: 2, date: '2023-06-20', time: '14:30', petName: 'Luna', service: 'Vacunación' },
 ]
 
 export default function CitasExistentes() {
@@ -19,7 +19,7 @@ export default function CitasExistentes() {
   const [appointments, setAppointments] = useState(mockAppointments)
 
   useEffect(() => {
-    const role = localStorage.getItem("'userRole'")
+    const role = localStorage.getItem('userRole')
     setIsLoggedIn(!!role)
     setUserRole(role)
   }, [])
@@ -29,7 +29,7 @@ export default function CitasExistentes() {
     setAppointments(appointments.filter(appointment => appointment.id !== id))
   }
 
-  if (!isLoggedIn || userRole !== "'recepcionista'") {
+  if (!isLoggedIn || userRole !== 'recepcionista') {
     return (
       <>
         <Navigation />

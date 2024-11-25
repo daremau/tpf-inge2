@@ -20,7 +20,7 @@ export default function Hero() {
       </div>
       <div className="absolute bottom-0 right-0 w-full h-full">
         <img
-          src="/placeholder.svg?height=800&width=1200"
+          src=""
           alt="Pets collage"
           className="object-cover w-full h-full opacity-50"
         />

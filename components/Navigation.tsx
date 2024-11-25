@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import Link from 'next/link'
 import { useRouter, usePathname } from 'next/navigation'
 import { Home, LogIn, Calendar, UserPlus, LogOut, Syringe, PawPrint } from 'lucide-react'
@@ -14,17 +14,41 @@ export default function Navigation() {
   const isDashboard = pathname === '/dashboard'
 
   useEffect(() => {
-    const role = localStorage.getItem('userRole')
-    setIsLoggedIn(!!role)
-    setUserRole(role)
-  }, [])
+    // Check authentication status whenever the component mounts or pathname changes
+    const checkAuth = () => {
+      const role = localStorage.getItem('userRole')
+      if (!role && pathname !== '/login' && pathname !== '/create-account') {
+        router.push('/login')
+        return
+      }
+      setIsLoggedIn(!!role)
+      setUserRole(role)
+    }
 
-  const handleLogout = () => {
-    localStorage.removeItem('userRole')
-    setIsLoggedIn(false)
-    setUserRole(null)
-    router.push('/')
-  }
+    checkAuth()
+  }, [pathname, router])
+
+  const handleLogout = useCallback(async () => {
+    try {
+      // Clear all auth-related items
+      localStorage.removeItem('userRole')
+      localStorage.removeItem('token') // if you have one
+      localStorage.removeItem('userId') // if you have one
+      
+      // Update state
+      setIsLoggedIn(false)
+      setUserRole(null)
+      
+      // Redirect to home page
+      router.push('/')
+      
+      // Optional: You might want to show a success message
+      // if you have a toast/notification system
+    } catch (error) {
+      console.error('Error during logout:', error)
+      // Handle error - maybe show an error message to user
+    }
+  }, [router])
 
   return (
     <nav className="border-b bg-white">
@@ -62,7 +86,7 @@ export default function Navigation() {
                     </Link>
                     <Link href="/registrar-mascota" className="flex items-center space-x-1">
                       <PawPrint className="h-4 w-4" />
-                      <span>Registrar Mascota</span>
+                      <span>Gestionar Mascotas</span>
                     </Link>
                   </>
                 )}
